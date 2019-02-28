@@ -1,19 +1,23 @@
 # TD n°4 - Manipulation de fichiers
 
-Dans ce TD nous allons utiliser les appels systèmes d'entrée/sortie pour manipuler des fichiers représentant des images.
+Cliquez sur le lien ci-dessous pour faire votre fork privé du TP (attention, pas de fork à la main !) :
 
-Tous les programmes écrits doivent gérer les éventuelles erreurs qui peuvent se produire lors de l'utilisation des appels systèmes, en particulier `open` (en cas d'erreur, affichez un message adapté à l'aide de `perror` et interrompez l'exécution du programme).
+https://classroom.github.com/a/Ukum_LSI
+
+Dans ce TD nous allons utiliser les appels systèmes d'entrée/sortie pour manipuler des fichiers représentant des images et des sons.
+
+**Tous les programmes écrits doivent gérer les éventuelles erreurs qui peuvent se produire lors de l'utilisation de l'appel systèmes `open` (en cas d'erreur, affichez un message adapté à l'aide de `perror` et interrompez l'exécution du programme).**
 
 ## Images en niveaux de gris
 
-Dans cette section, nous allons manipuler des images en niveaux de gris stockées au format *Portable Gray Map* `pgm`). Un fichier `pgm` contient un en-tête suivi d'une partie de données binaires dans laquelle chaque point de l'image (pixel) est représenté par un octet du fichier, correspondant à son intensité en niveau de gris (0 : noir, 255: blanc).
+Dans cette section, nous allons manipuler des images en niveaux de gris stockées au format *Portable Gray Map* `pgm`). Un fichier `pgm` contient un entête suivi d'une partie de données binaires dans laquelle chaque point de l'image (pixel) est représenté par un octet du fichier, correspondant à son intensité en niveau de gris (0 : noir, 255: blanc).
 
-L'en-tête comporte au moins trois lignes :
+L'entête comporte au moins trois lignes :
 - un code (ou *magic number* indiquant le format ("P5" pour le `pgm`) ;
 - la largeur de l'image, suivie de la hauteur. Les valeurs sont représentées par leurs représentations binaires (caractères ASCII) et sont séparées par au moins un espace ;
 - la valeur maximale des niveaux de gris utilisés (en général 255), également en décimal ASCII. Cette valeur correspond à du blanc.
 
-L'en-tête peut également contenir d'autres lignes de commentaires commençant par le caractère `#`. Pour simplifier les choses, on supposera dans ce TP que les en-têtes ne contiennent pas de commentaires et que le niveau de gris maximum est 255.
+L'entête peut également contenir d'autres lignes de commentaires commençant par le caractère `#`. Pour simplifier les choses, on supposera dans ce TP que les entêtes ne contiennent pas de commentaires et que le niveau de gris maximum est 255.
 
 Par exemple, un fichier `pgm` pourrait commencer de la manière suivante :
 ```
@@ -29,24 +33,22 @@ P5
 
 1. Écrivez un programme `negative.c` qui prend en argument deux noms de fichiers, ouvre le premier (que l'on suppose être une image au format `pgm`) et écrit dans le second une image correspondant à une inversion d'intensité de chacun des pixels de l'image de départ.
 
-    **Remarque :** Pour lire l'en-tête du fichier, vous pouvez utiliser la fonction `lireligne` vue dans le TP précédent (disponible dans le code fourni)
+    **Remarque :** Pour lire l'entête du fichier, vous pouvez utiliser la fonction `lireligne` vue dans le TP précédent (disponible dans le code fourni)
 
 ## Images en couleur
 
-On s'intéresse maintenant aux images au format *Portable Pixel Map* (`ppm`). Tout comme pour le format `pgm`, les fichiers `ppm` commencent par un en-tête suivi de données binaires où chaque pixel de l'image est représenté par trois octets correspondant aux niveaux de rouge, vert et bleu de la couleur du pixel. Le format de l'en-tête est semblable à celui du format `pgm` :
+On s'intéresse maintenant aux images au format *Portable Pixel Map* (`ppm`). Tout comme pour le format `pgm`, les fichiers `ppm` commencent par un entête suivi de données binaires où chaque pixel de l'image est représenté par trois octets correspondant aux niveaux de rouge, vert et bleu de la couleur du pixel. Le format de l'entête est semblable à celui du format `pgm` :
 - un *magic number* ("P6" pour le format `ppm`) ;
 - la largeur et la hauteur de l'image données en décimal ASCII ;
 - le nombre de niveaux de chaque composante de couleur (en général 255).
 
 1. Convertissez une image au format `ppm`, en la nommant `image.ppm`.
 
-    <!--1. Écrivez un programme `permute.c` qui permute les composantes de chaque pixel d'une image `ppm` (pour chaque pixel, `rgb` $\rightarrow$ `gbr`).-->
-
-1. Écrivez un programme `intensite.c` qui modifie l'intensité de chaque composante des pixels d'une image en lui ajoutant une valeur constante passée en troisième argument (si la constante est de 15 par exemple, alors chaque composante doit être augmentée de 15).
+1. Écrivez un programme `intensite.c` qui prend en argument deux noms de fichiers et un entier, et modifie l'intensité de chaque composante des pixels de l'image correspondant au premier argument (qu'on suppose être au format `ppm`) en lui ajoutant la valeur reçue en troisième argument (si le troisième argument est 15 par exemple, alors chaque composante doit être augmentée de 15). Le résultat est sauvegardée sous le nom passé en second argument.
 	
     **Attention :** La valeur de chaque composante doit rester entre 0 et 255.
 	
-	**Indication :** Les arguments reçus par le programme sont tous des chaînes de caractères. Ceux qui représentent des entiers doivent donc être convertis en une variable de type `int`. Vous pouvez utiliser les fonctions `strtol` (un peu compliquée mais recommandée) ou `atoi` (beaucoup plus simple mais ne détecte pas les erreurs).
+	**Indication :** Les arguments reçus par le programme sont tous des chaînes de caractères. Ceux qui représentent des entiers doivent donc être convertis en une variable de type `int`. Vous pouvez utiliser les fonctions [`strtol`](http://man7.org/linux/man-pages/man3/strtol.3.html) (un peu compliquée mais recommandée) ou [`atoi`](http://man7.org/linux/man-pages/man3/atoi.3.html) (beaucoup plus simple mais moins robuste).
 
 1. (Optionnel) Écrivez un programme `miroir.c` qui permet de réaliser un effet de miroir vertical ou horizontal sur une image `pgm` ou `ppm`.
 	
@@ -96,10 +98,10 @@ L'entête d'un fichier WAV commence dès le premier octet (*offset* 0). Il a une
 
 Après l'entête, le fichier contient les octets de données représentant les échantillons des différents canaux en alternance :
 
-![echantillons](echantillons1.svg)
+![echantillons](images/echantillons1.svg)
 *Contenu d'un fichier WAV correspondant à un enregistrement sur 2 canaux (stereo) avec des échantillons sur 16 bits (2 octets).*
 
-![echantillons](echantillons2.svg)
+![echantillons](images/echantillons2.svg)
 *Contenu d'un fichier WAV correspondant à un enregistrement sur 1 canal (mono) avec des échantillons sur 16 bits (2 octets).*
 
 ### Organisation du programme
@@ -111,7 +113,7 @@ Le programme devra donc exécuter les actions suivantes :
 - lire l'entête du fichier en entrée, modifier les valeurs qui changent lorsque le fichier est converti en mono et écrire le nouvel entête dans le fichier en sortie ;
 - lire les données du fichier en entrée et ne recopier dans le fichier en sortie que les octets correspondant aux échantillons du premier canal.
 
-On part du squelette de programme suivant :
+On part du squelette de programme suivant (fichier `mono.c`) :
 ```cpp
 #include <stdio.h>
 #include <stdlib.h>
@@ -152,7 +154,7 @@ int main(int argc, char **argv) {
     - Si le fichier en écriture n'existe pas il faut le créer et s'il existe il faut le réinitialiser (effacer son contenu).
 	- Si l'ouverture d'un des fichiers ne s'effectue pas correctement, le programme doit afficher un message d'erreur approprié et terminer son exécution.
 
-1. Donnez l'instruction permettant de lire les octets de l'entête du fichier en entrée pour les placer dans le tableau `buffer`. On rappelle que la longueur de l'entête est toujours 44 octets.
+1. Ajoutez l'instruction permettant de lire les octets de l'entête du fichier en entrée pour les placer dans le tableau `buffer`. On rappelle que la longueur de l'entête est toujours 44 octets.
 
     Il faut maintenant modifier les informations suivantes dans l'entête du fichier (qui se trouve dans le tableau `buffer`) :
     - `FileSize` (octets 4-7): cet `int` représente la taille du fichier moins 8 octets (c'est-à-dire le nombre d'octets restant dans le fichier après cette valeur). Dans le fichier mono en sortie, l'entête a la même taille (44 octets) mais il y a deux fois moins d'octets de données.
@@ -164,7 +166,7 @@ int main(int argc, char **argv) {
 1. Écrivez les instructions permettant de modifier le contenu du tableau `buffer` contenant initialement l'entête du fichier en entrée pour qu'il contienne l'entête du fichier en sortie.
 
 	**Indications :** On suppose ici que les `int` sont stockés sur 4 octets et que les `short int` sont stockés sur 2 octets. On suppose également que l'ordre des octets dans la représentation d'un entier (`int` ou `short int`) du système est le même que celui utilisé dans le format WAV (*little-endian*). Avec ces hypothèses, on peut manipuler les valeurs dans le tableau `buffer` de la manière suivante :
-    ```
+    ```cpp
 	    int *p; 
 	    p = (int *) (buffer + 14);
 	    // p est un pointeur vers un entier dont la représentation commence à la
@@ -183,5 +185,5 @@ int main(int argc, char **argv) {
 	
 	La boucle doit être interrompue lorsque tous les octets du fichier en entrée ont été lus.
     
-    ![echantillons](echantillons3.svg)
-    *Déplacement des octets correspondant aux échantillons du premier canal d'un fichier stereo (en gris clair en haut) dans le début du tableau pour correspondre à l'encodage d'un fichier mono (en bas).*
+    ![echantillons](images/echantillons3.svg)
+    *Déplacement des octets correspondant aux échantillons du premier canal d'un fichier stereo (en clair en haut) dans le début du tableau pour correspondre à l'encodage d'un fichier mono (en bas).*
