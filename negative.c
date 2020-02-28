@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     int fd_in;  // descripteur de fichier du fichier ouvert en lecture
     int fd_out; // descripteur de fichier du fichier ouvert en écriture
     int nbread;
-    char *buffer = malloc(4096 * sizeof(unsigned char));    // buffer de lecture
+    unsigned char *buffer = malloc(4096 * sizeof(unsigned char));    // buffer de lecture
 
     return 0;
 }
