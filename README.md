@@ -1,9 +1,5 @@
 # TD n°4 - Manipulation de fichiers
 
-Cliquez sur le lien ci-dessous pour faire votre fork privé du TP (attention, pas de fork à la main !) :
-
-https://classroom.github.com/a/Y_uIdbaa
-
 Dans ce TD nous allons utiliser les appels systèmes d'entrée/sortie pour manipuler des fichiers représentant des images et des sons.
 
 **Tous les programmes écrits doivent gérer les éventuelles erreurs qui peuvent se produire lors de l'utilisation de l'appel systèmes `open` (en cas d'erreur, affichez un message adapté à l'aide de `perror` et interrompez l'exécution du programme).**
