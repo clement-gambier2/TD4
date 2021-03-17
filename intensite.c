@@ -24,10 +24,36 @@ int lireligne(int fd, char *buffer, int size) {
 
 
 int main(int argc, char **argv) {
-    int fd_in;  // descripteur de fichier du fichier ouvert en lecture
-    int fd_out; // descripteur de fichier du fichier ouvert en écriture
+    // descripteur de fichier du fichier ouvert en lecture
+    int fd_in = open("test.ppm",O_RDONLY);
+    if(fd_in < 0){
+      perror(argv[1]);
+      exit(1);
+    }
+    // descripteur de fichier du fichier ouvert en écriture
+    int fd_out = open("augmente.pgm",O_WRONLY | O_CREAT | O_TRUNC, 0644);
     int nbread;
     unsigned char *buffer = malloc(4096 * sizeof(unsigned char));    // buffer de lecture
+    //atoi(argv[3]);
+    int delta = 25;
 
+    //Lecture de l'en tête
+    for(int i = 0;i < 3; i++){
+      nbread = lireligne(fd_in,buffer,4096);
+      printf(" nombre d'octet copié : %i \n",nbread);
+      write(fd_out,buffer,nbread);
+    }
+    //Lecture de chaque pixel
+    nbread = 1;
+    while(nbread != 0){
+      nbread = read(fd_in,buffer,4096);
+      for(int i = 0; i < nbread ;i++){
+        buffer[i] = buffer[i] + delta;
+      }
+      write(fd_out,buffer,nbread);
+    }
+
+    close(fd_in);
+    close(fd_out);
     return 0;
 }
